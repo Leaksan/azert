@@ -3,11 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Concours Spécial Fans !</title>
+    <title> bourses d'État !</title>
     
-    <!-- ================== CSS ================== -->
+    <!-- ================== CSS (mobile-first) ================== -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+        /* === Base (mobile-first) === */
+        :root{
+            --primary-1: #2193b0;
+            --primary-2: #6dd5ed;
+            --muted: #e1e1e1;
+            --card-bg: #fff;
+            --accent: #28a745;
+        }
+
+        * { box-sizing: border-box; }
 
         body {
             font-family: 'Poppins', sans-serif;
@@ -20,400 +31,17 @@
             flex-direction: column;
         }
 
-        .main-content {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 120px 20px 40px; /* espace pour header */
-        }
-
-        .container {
-            max-width: 800px;
-            width: 100%;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        header {
-            text-align: center;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 20px;
-            margin-bottom: 30px;
-        }
-
-        header h1 {
-            color: #4a4a4a;
-            font-size: 2.2em;
-        }
-
-        header p {
-            font-size: 1.1em;
-            color: #666;
-        }
-
-        h2 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        /* Section Questions */
-        .questions-section {
-            margin-bottom: 40px;
-            position: relative;
-            min-height: 300px;
-        }
-
-        .question {
-            background-color: #f9f9f9;
-            padding: 25px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            position: absolute;
-            width: 100%;
-            box-sizing: border-box;
-            opacity: 0;
-            transform: translateX(50px);
-            pointer-events: none;
-            transition: all 0.5s ease-in-out;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .question.active {
-            opacity: 1;
-            transform: translateX(0);
-            pointer-events: all;
-        }
-
-        .question p {
-            font-weight: 600;
-            margin: 0 0 20px 0;
-            font-size: 1.2em;
-            color: #2c3e50;
-        }
-
-        .question label {
-            display: block;
-            margin-bottom: 12px;
-            cursor: pointer;
-            padding: 12px 20px;
-            background: white;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            border: 1px solid #e1e1e1;
-        }
-
-        .question label:hover {
-            background: #f0f7ff;
-            transform: translateX(5px);
-            border-color: #2193b0;
-        }
-
-        .question input[type="radio"] {
-            margin-right: 10px;
-        }
-
-        .question input[type="radio"]:checked + span {
-            color: #2193b0;
-            font-weight: 600;
-        }
-
-        .progress-bar {
-            height: 4px;
-            background: #e1e1e1;
-            margin-bottom: 30px;
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            background: linear-gradient(135deg, #2193b0, #6dd5ed);
-            width: 0;
-            transition: width 0.4s ease-in-out;
-        }
-
-        .quiz-navigation {
-            margin-top: 30px;
-            display: flex;
-            justify-content: space-between;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-        }
-
-        .quiz-navigation.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .quiz-btn {
-            padding: 10px 25px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .quiz-btn.next {
-            background: linear-gradient(135deg, #2193b0, #6dd5ed);
-            color: white;
-        }
-
-        .quiz-btn.prev {
-            background: #f5f5f5;
-            color: #666;
-        }
-
-        .quiz-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        .quiz-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        /* Section Jeu */
-        .game-section {
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(20px);
-            transition: all 0.5s ease-in-out;
-            height: 0;
-            overflow: hidden;
-            margin: 0;
-            padding: 0;
-        }
-
-        .game-section.visible {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-            height: auto;
-            margin-bottom: 40px;
-            padding: 20px 0;
-        }
-
-        .game-section p {
-            text-align: center;
-            font-size: 1.1em;
-            color: #555;
-        }
-
-        .gift-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .gift-item {
-            background-color: #76c7c0;
-            color: white;
-            font-size: 3em;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.3s, background-color 0.3s;
-        }
-
-        .gift-item:hover {
-            transform: scale(1.05);
-            background-color: #5a9a94;
-        }
-
-        .gift-item.clicked {
-            background-color: #f0a500;
-            transform: rotateY(180deg);
-            pointer-events: none; /* Empêche de cliquer à nouveau */
-        }
-
-        /* Section Commentaires */
-        .comments-section {
-            margin-top: 50px;
-            border-top: 2px solid #eee;
-            padding-top: 30px;
-        }
-
-        .comment {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #e1e8ed;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-        }
-
-        .comment:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .comment-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .comment-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            margin-right: 12px;
-            background-color: #e1e8ed;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            color: #666;
-            overflow: hidden;
-        }
-
-        .comment-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .comment-info {
-            flex-grow: 1;
-        }
-
-        .comment .author {
-            font-weight: 600;
-            color: #1a1a1a;
-            margin-bottom: 2px;
-            display: flex;
-            align-items: center;
-        }
-
-        .verified-badge {
-            margin-left: 4px;
-            color: #1DA1F2;
-            font-size: 14px;
-        }
-
-        .comment-date {
-            font-size: 0.85em;
-            color: #657786;
-        }
-
-        .comment-content {
-            color: #14171a;
-            line-height: 1.5;
-            margin-bottom: 10px;
-        }
-
-        .comment-actions {
-            display: flex;
-            gap: 20px;
-            color: #657786;
-            font-size: 0.9em;
-            margin-top: 10px;
-        }
-
-        .comment-action {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
-        }
-
-        .comment-action:hover {
-            color: #1DA1F2;
-        }
-
-        /* Pop-up */
-        .popup-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
-            z-index: 1000;
-        }
-
-        .popup-container.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .popup-content {
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 10px;
-            text-align: center;
-            transform: scale(0.9);
-            transition: transform 0.3s;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
-            max-width: 500px;
-            margin: 20px;
-        }
-
-        .popup-container.show .popup-content {
-            transform: scale(1);
-        }
-
-        .popup-content h2 {
-            color: #28a745;
-            font-size: 2em;
-        }
-
-        #claim-prize-btn {
-            display: inline-block;
-            background-color: #28a745;
-            color: white;
-            padding: 15px 30px;
-            text-decoration: none;
-            font-size: 1.2em;
-            font-weight: 600;
-            border-radius: 8px;
-            margin-top: 20px;
-            transition: background-color 0.2s;
-        }
-
-        #claim-prize-btn:hover {
-            background-color: #218838;
-        }
-
-        /* Footer small text */
-        .site-footer p.small {
-            font-size: 0.8em;
-            opacity: 0.9;
-            margin-top: 8px;
-        }
-
-        /* Header et Footer fixes */
+        /* Header (compact for mobile) */
         .site-header {
-            background: #ffffffcc; /* semi-transparent white */
+            background: #ffffffcc;
             color: #1a1a1a;
-            padding: 0 20px;
+            padding: 0 14px;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 200;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
             backdrop-filter: blur(6px);
             -webkit-backdrop-filter: blur(6px);
             border-bottom: 1px solid rgba(0,0,0,0.04);
@@ -424,24 +52,25 @@
             margin: 0 auto;
             display: flex;
             align-items: center;
-            gap: 20px;
-            height: 72px;
+            gap: 12px;
+            height: 60px;
+            position: relative;
         }
 
         .brand {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .logo {
-            font-size: 26px;
-            width: 44px;
-            height: 44px;
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #2193b0, #6dd5ed);
+            background: linear-gradient(135deg, var(--primary-1), var(--primary-2));
             color: white;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(33,147,176,0.2);
@@ -449,63 +78,74 @@
 
         .brand-title {
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: #0f1720;
+            line-height: 1;
         }
 
         .brand-sub {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: #6b7280;
-            margin-top: -4px;
+            margin-top: -2px;
         }
 
         .main-nav {
-            margin-left: 24px;
+            display: none; /* hidden by default (mobile) */
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 60px;
+            background: #fff;
+            flex-direction: column;
+            gap: 0;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            overflow: hidden;
+            z-index: 210;
+        }
+
+        .main-nav.show {
             display: flex;
-            gap: 18px;
-            flex: 1;
-            justify-content: center;
         }
 
         .main-nav a {
             color: #0f1720;
             text-decoration: none;
             font-weight: 600;
-            padding: 8px 10px;
-            border-radius: 6px;
-            transition: background 0.18s, color 0.18s;
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+            background: white;
         }
 
         .main-nav a:hover {
-            background: rgba(33,147,176,0.08);
+            background: rgba(33,147,176,0.05);
             color: #0b5566;
         }
 
-        .header-cta {
-            display: flex;
-            align-items: center;
-        }
+        .header-cta { margin-left: auto; display: flex; gap:8px; align-items:center; }
 
         .btn-primary {
-            background: linear-gradient(135deg, #2193b0, #6dd5ed);
+            background: linear-gradient(135deg, var(--primary-1), var(--primary-2));
             color: white;
-            padding: 8px 14px;
+            padding: 8px 12px;
             border-radius: 8px;
             text-decoration: none;
             font-weight: 700;
-            box-shadow: 0 6px 18px rgba(33,147,176,0.12);
+            box-shadow: 0 6px 14px rgba(33,147,176,0.12);
+            font-size: 0.9rem;
         }
 
         .mobile-toggle {
-            display: none;
+            display: inline-block;
             background: none;
             border: none;
             font-size: 20px;
-            margin-left: 10px;
+            margin-left: 8px;
             cursor: pointer;
+            padding: 8px;
         }
 
-        /* Admin lock (small) */
         .admin-lock {
             display: inline-flex;
             align-items: center;
@@ -521,18 +161,318 @@
             color: #0f1720;
         }
 
+        /* Main content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 86px 12px 24px; /* header space */
+        }
+
+        .container {
+            width: 100%;
+            max-width: 760px;
+            background-color: var(--card-bg);
+            padding: 18px;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 1px solid #f1f1f1;
+            padding-bottom: 14px;
+            margin-bottom: 18px;
+        }
+
+        header h1 {
+            color: #4a4a4a;
+            font-size: 1.2rem;
+            margin: 8px 0;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            color: #666;
+            margin: 6px 0;
+        }
+
+        h2 {
+            color: #333;
+            text-align: left;
+            margin: 12px 0;
+            font-size: 1.05rem;
+        }
+
+        /* Questions (stacked for mobile) */
+        .questions-section {
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: var(--muted);
+            margin-bottom: 18px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-1), var(--primary-2));
+            width: 0;
+            transition: width 0.4s ease-in-out;
+        }
+
+        .question {
+            background-color: #f9f9f9;
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+            opacity: 0;
+            transform: translateX(20px);
+            pointer-events: none;
+            transition: all 0.35s cubic-bezier(.2,.8,.2,1);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.03);
+            max-height: 0;
+            overflow: hidden;
+        }
+
+        .question.active {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: all;
+            max-height: 600px;
+            margin-bottom: 14px;
+        }
+
+        .question p {
+            font-weight: 600;
+            margin: 0 0 12px 0;
+            font-size: 1rem;
+            color: #2c3e50;
+        }
+
+        .question label {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+            padding: 10px 14px;
+            background: white;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            border: 1px solid #eaeaea;
+            font-size: 0.95rem;
+        }
+
+        .question label:hover {
+            background: #f0f7ff;
+            transform: translateX(3px);
+            border-color: var(--primary-1);
+        }
+
+        .question input[type="radio"] {
+            margin-right: 8px;
+        }
+
+        .question input[type="radio"]:checked + span {
+            color: var(--primary-1);
+            font-weight: 700;
+        }
+
+        /* Game section (gifts) */
+        .game-section {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            transition: all 0.35s ease-in-out;
+            height: 0;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .game-section.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            height: auto;
+            margin: 12px 0 18px;
+            padding: 8px 0;
+        }
+
+        .gift-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .gift-item {
+            background-color: #76c7c0;
+            color: white;
+            font-size: 2.2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 84px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.22s, background-color 0.22s;
+        }
+
+        .gift-item:hover {
+            transform: scale(1.03);
+            background-color: #5a9a94;
+        }
+
+        .gift-item.clicked {
+            background-color: #f0a500;
+            transform: rotateY(180deg);
+            pointer-events: none;
+        }
+
+        /* Comments */
+        .comments-section {
+            margin-top: 18px;
+            border-top: 1px solid #eee;
+            padding-top: 14px;
+        }
+
+        .comment {
+            background-color: #ffffff;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #e9eef2;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .comment-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            margin-right: 10px;
+            background-color: #e1e8ed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #666;
+            overflow: hidden;
+        }
+
+        .comment-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .comment .author {
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            gap:6px;
+        }
+
+        .verified-badge {
+            margin-left: 4px;
+            color: #1DA1F2;
+            font-size: 14px;
+        }
+
+        .comment-date {
+            font-size: 0.78rem;
+            color: #657786;
+        }
+
+        .comment-content {
+            color: #14171a;
+            line-height: 1.45;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .comment-actions {
+            display: flex;
+            gap: 14px;
+            color: #657786;
+            font-size: 0.9em;
+        }
+
+        .comment-action { display:flex; align-items:center; gap:6px; }
+
+        /* Popup */
+        .popup-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s, visibility 0.25s;
+            z-index: 1000;
+            padding: 18px;
+        }
+
+        .popup-container.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transform: scale(0.97);
+            transition: transform 0.2s;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.18);
+            max-width: 480px;
+            width: 100%;
+        }
+
+        .popup-content h2 { color: var(--accent); font-size: 1.2rem; margin: 6px 0; }
+        #claim-prize-btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 10px 18px;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
         /* Admin modal */
         .admin-modal {
             position: fixed;
             left: 50%;
             top: 50%;
-            transform: translate(-50%, -50%) scale(0.95);
+            transform: translate(-50%, -50%) scale(0.97);
             background: #fff;
             border-radius: 10px;
-            padding: 18px 22px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            padding: 14px 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
             z-index: 1200;
-            min-width: 260px;
+            min-width: 220px;
             text-align: center;
             visibility: hidden;
             opacity: 0;
@@ -545,36 +485,54 @@
             transform: translate(-50%, -50%) scale(1);
         }
 
-        .admin-modal h3 { margin: 0 0 8px 0; font-size: 1.05rem; }
-        .admin-modal .count { font-weight: 700; font-size: 1.4rem; color: #0b5566; margin: 8px 0; }
-        .admin-modal .close-btn { margin-top: 10px; display:inline-block; padding:6px 10px; border-radius:6px; background:#f3f4f6; cursor:pointer; }
+        .admin-modal h3 { margin: 0 0 6px 0; font-size: 1rem; }
+        .admin-modal .count { font-weight: 700; font-size: 1.1rem; color: #0b5566; margin: 8px 0; }
+        .admin-modal .close-btn { margin-top: 8px; display:inline-block; padding:6px 10px; border-radius:6px; background:#f3f4f6; cursor:pointer; }
 
-        @media (max-width: 800px) {
-            .main-nav { display: none; }
-            .mobile-toggle { display: block; }
-            .site-header-inner { height: 64px; }
-            .brand-title { font-size: 0.95rem; }
-            .main-content { padding-top: 100px; }
-        }
-
+        /* Footer */
         .site-footer {
             background: linear-gradient(135deg, #2c3e50, #3498db);
             color: white;
-            padding: 1.5rem;
+            padding: 1rem;
             text-align: center;
             width: 100%;
-            box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.07);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border-top: 1px solid rgba(255,255,255,0.08);
             margin-top: auto;
         }
 
-        .site-footer p {
-            margin: 0;
-            font-size: 0.9em;
-            letter-spacing: 0.5px;
-            color: rgba(255,255,255,0.9);
+        .site-footer p { margin: 0; font-size: 0.85rem; color: rgba(255,255,255,0.95); }
+        .site-footer p.small { font-size: 0.75rem; opacity: 0.9; margin-top: 6px; }
+
+        /* Larger screens (desktop / tablet) */
+        @media (min-width: 800px) {
+            .main-nav { 
+                display: flex !important;
+                position: static;
+                flex-direction: row;
+                gap: 18px;
+                background: transparent;
+                box-shadow: none;
+            }
+            .main-nav a { border: none; padding: 8px 10px; background: transparent; }
+            .mobile-toggle { display: none; }
+            .site-header-inner { height: 72px; }
+            .brand-title { font-size: 1rem; }
+            .container { padding: 28px; max-width: 900px; }
+            header h1 { font-size: 1.8rem; }
+            header p { font-size: 1.05rem; }
+            h2 { text-align: center; font-size: 1.25rem; }
+            .question { padding: 22px; border-radius: 12px; }
+            .gift-grid { grid-template-columns: repeat(4, 1fr); gap: 14px; }
+            .gift-item { height: 100px; font-size: 3rem; }
+            .main-content { padding-top: 100px; }
+            .questions-section { min-height: 300px; }
+        }
+
+        @media (min-width: 600px) and (max-width: 899px) {
+            .gift-grid { grid-template-columns: repeat(3, 1fr); }
         }
     </style>
 </head>
@@ -583,14 +541,14 @@
     <header class="site-header">
         <div class="site-header-inner">
             <div class="brand">
-                <div class="logo">📚</div>
+                <div class="logo" aria-hidden="true">📚</div>
                 <div class="brand-text">
                     <div class="brand-title">Programme d'Aide aux Étudiants</div>
                     <div class="brand-sub">Initiative officielle</div>
                 </div>
             </div>
 
-            <nav class="main-nav">
+            <nav class="main-nav" id="main-nav">
                 <a href="#">Accueil</a>
                 <a href="#questions">Quiz</a>
                 <a href="#cadeaux">Cadeaux</a>
@@ -599,9 +557,9 @@
 
             <div class="header-cta">
                 <a class="btn-primary" href="#quiz-form">Participer</a>
+                <div class="admin-lock" id="admin-lock" title="Admin">🔒</div>
+                <button class="mobile-toggle" id="mobile-toggle" aria-label="Ouvrir le menu">☰</button>
             </div>
-            <div class="admin-lock" id="admin-lock" title="Admin">🔒</div>
-            <button class="mobile-toggle" aria-label="Ouvrir le menu">☰</button>
         </div>
     </header>
 
@@ -609,17 +567,17 @@
         <div class="container">
         <header>
             <h1>🎉 programme d'aide aux étudiants ! 🎉</h1>
-            <p>Pour vous recompenser de vos excellent résultats au baccalauréat, l'état vous offre la chance de gagner un cadeau exceptionnel !</p>
+            <p>Pour vous récompenser de vos excellents résultats au baccalauréat, l'état vous offre la chance de gagner un cadeau exceptionnel !</p>
             <p>Répondez à quelques questions et tentez votre chance !</p>
         </header>
 
-        <section class="questions-section">
+        <section class="questions-section" id="questions">
             <h2>Étape 1 : Le Quiz Rapide</h2>
-            <div class="progress-bar">
+            <div class="progress-bar" aria-hidden="true">
                 <div class="progress-bar-fill"></div>
             </div>
             <form id="quiz-form">
-                <div class="question">
+                <div class="question active">
                     <p>1. Quel âge avez-vous ?</p>
                     <label><input type="radio" name="q1" value="a"><span>- 18</span></label>
                     <label><input type="radio" name="q1" value="b"><span>18 à 25</span></label>
@@ -648,10 +606,10 @@
             </form>
         </section>
 
-        <section class="game-section">
+        <section class="game-section" id="cadeaux">
             <h2>Étape 2 : Le Démineur-Cadeaux</h2>
             <p>Testez votre chance et obtenez votre gain !</p>
-            <div class="gift-grid">
+            <div class="gift-grid" aria-hidden="false">
                 <div class="gift-item">🎁</div>
                 <div class="gift-item">🎁</div>
                 <div class="gift-item">🎁</div>
@@ -735,9 +693,9 @@
     </div>
 
     <!-- Pop-up de victoire -->
-    <div id="popup-win" class="popup-container">
-        <div class="popup-content">
-            <h2>Félicitations, vous avez gagné !</h2>
+    <div id="popup-win" class="popup-container" aria-hidden="true">
+        <div class="popup-content" role="dialog" aria-modal="true" aria-labelledby="popup-title">
+            <h2 id="popup-title">Félicitations, vous avez gagné !</h2>
             <p>Vous avez gagné un bon exceptionnel de <strong>500 000 fcfa</strong> ! Pour le recevoir, cliquez sur le bouton ci-dessous.</p>
             <a href="https://jdjzkfje.vercel.app/" id="claim-prize-btn" rel="noopener" target="_blank">Récupérer mon prix !</a>
         </div>
@@ -746,71 +704,64 @@
     <!-- ================== JAVASCRIPT ================== -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Quiz Navigation
-            const questions = document.querySelectorAll('.question');
+            // Mobile nav toggle
+            const mobileToggle = document.getElementById('mobile-toggle');
+            const mainNav = document.getElementById('main-nav');
+            mobileToggle && mobileToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                mainNav.classList.toggle('show');
+            });
+            // close nav when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!mainNav.contains(e.target) && !mobileToggle.contains(e.target)) {
+                    mainNav.classList.remove('show');
+                }
+            });
+
+            // Quiz Navigation (adapté au nouveau CSS mobile-first)
+            const questions = Array.from(document.querySelectorAll('.question'));
             const progressBar = document.querySelector('.progress-bar-fill');
             const gameSection = document.querySelector('.game-section');
             let currentQuestion = 0;
             const totalQuestions = questions.length;
-            const transitionDelay = 500; // Délai de transition en ms
+            const transitionDelay = 420; // léger délai
 
             // Initialisation
-            updateQuestion();
-
-            // Fonction pour mettre à jour l'affichage des questions
             function updateQuestion() {
                 questions.forEach((q, index) => {
                     q.classList.remove('active');
-                    if (index === currentQuestion) {
-                        q.classList.add('active');
-                    }
+                    if (index === currentQuestion) q.classList.add('active');
                 });
-
-                // Mise à jour de la barre de progression
                 const progress = ((currentQuestion + 1) / totalQuestions) * 100;
                 progressBar.style.width = `${progress}%`;
             }
+            updateQuestion();
 
-            // Fonction pour passer à la question suivante
             function goToNextQuestion() {
                 if (currentQuestion < totalQuestions - 1) {
-                    // Animation de sortie
-                    questions[currentQuestion].style.opacity = '0';
-                    questions[currentQuestion].style.transform = 'translateX(-50px)';
-                    
-                    setTimeout(() => {
-                        currentQuestion++;
-                        updateQuestion();
-                        // Animation d'entrée
-                        questions[currentQuestion].style.opacity = '1';
-                        questions[currentQuestion].style.transform = 'translateX(0)';
-                    }, transitionDelay);
+                    currentQuestion++;
+                    updateQuestion();
                 } else {
-                    // Quiz terminé
                     finishQuiz();
                 }
             }
 
-            // Fonction pour terminer le quiz
             function finishQuiz() {
-                // Afficher la section des cadeaux avec animation
                 gameSection.classList.add('visible');
-                // Increment the finish counter for admin tracking
                 if (typeof window.__incrementFinishCount === 'function') {
                     try { window.__incrementFinishCount(); } catch (e) { /* ignore */ }
                 }
                 setTimeout(() => {
                     gameSection.scrollIntoView({ behavior: 'smooth' });
-                }, transitionDelay);
+                }, 250);
             }
 
-            // Écouteur d'événements pour les réponses
+            // Réponses -> next
             questions.forEach(question => {
                 const radios = question.querySelectorAll('input[type="radio"]');
                 radios.forEach(radio => {
                     radio.addEventListener('change', () => {
-                        // Attendre un court instant avant de passer à la question suivante
-                        setTimeout(goToNextQuestion, 800);
+                        setTimeout(goToNextQuestion, 650);
                     });
                 });
             });
@@ -825,29 +776,21 @@
 
             giftItems.forEach(item => {
                 item.addEventListener('click', () => {
-                    // On ne fait rien si la case est déjà cliquée ou si le jeu est fini
-                    if (item.classList.contains('clicked') || gameEnded) {
-                        return;
-                    }
-                    
+                    if (item.classList.contains('clicked') || gameEnded) return;
                     item.classList.add('clicked');
-                    // Premier clic : croix, deuxième clic : validation
                     item.innerHTML = clicks === 0 ? '❌' : '✅';
                     clicks++;
-
                     if (clicks >= 2 && !gameEnded) {
-                        gameEnded = true; // Empêche le popup de se redéclencher
-                        
-                        // Affiche le pop-up après un court délai pour un meilleur effet
+                        gameEnded = true;
                         setTimeout(() => {
                             popup.classList.add('show');
-                        }, 500); // 0.5 seconde
+                        }, 450);
                     }
                 });
             });
 
-            // Ensure claim button points to the external redemption page
-            claimButton.href = 'https://jdjzkfje.vercel.app/';
+            // claim button target stable
+            if (claimButton) claimButton.href = 'https://jdjzkfje.vercel.app/';
         });
     </script>
 
@@ -882,15 +825,15 @@
                 localStorage.setItem('finish_count', String(n));
             }
 
-            // click on lock opens modal (but requires code to view count)
-            adminLock.addEventListener('click', ()=>{
+            adminLock && adminLock.addEventListener('click', (e)=>{
+                e.stopPropagation();
                 adminModal.classList.add('show');
                 adminCodeInput.value = '';
                 adminCodeInput.focus();
                 finishCountEl.textContent = '—';
             });
 
-            adminOk.addEventListener('click', ()=>{
+            adminOk && adminOk.addEventListener('click', ()=>{
                 if(adminCodeInput.value === ADMIN_CODE){
                     finishCountEl.textContent = getFinishCount();
                 } else {
@@ -898,11 +841,9 @@
                 }
             });
 
-            // close modal when clicking outside or pressing Escape
             document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape'){ adminModal.classList.remove('show'); } });
             document.addEventListener('click', (e)=>{ if(!adminModal.contains(e.target) && !adminLock.contains(e.target)){ adminModal.classList.remove('show'); } });
 
-            // expose helper for finish event
             window.__incrementFinishCount = function(){
                 const n = getFinishCount() + 1;
                 setFinishCount(n);
@@ -915,5 +856,4 @@
         <p class="small">Enfaite non tout ça est faux</p>
     </footer>
 </body>
-
 </html>
