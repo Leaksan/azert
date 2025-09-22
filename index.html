@@ -698,9 +698,13 @@
             <h2 id="popup-title">Félicitations, vous avez gagné !</h2>
             <p>Vous avez gagné un bon exceptionnel de <strong>500 000 fcfa</strong> !</p>
             <p style="color: #666; margin: 10px 0;">Pour débloquer votre prix :</p>
-            <p style="color: #28a745; margin-bottom: 15px;">Partagez ce lien dans <strong>2 groupes WhatsApp</strong> différents</p>
-            <div id="share-count" style="font-size: 0.9em; color: #666; margin-bottom: 10px;">Partages effectués : 0/2</div>
-            <a href="whatsapp://send?text=🎉 Gagnez 500 000 FCFA avec le Programme d'Aide aux Étudiants ! Je viens de gagner, tentez votre chance ici : https://jdjzkfje.vercel.app" target="_blank" class="whatsapp-share-btn" style="background: #25D366; color: white; padding: 8px 15px; border-radius: 6px; text-decoration: none; display: inline-block; margin-bottom: 10px;">Partager sur WhatsApp</a>
+            <p style="color: #28a745; margin-bottom: 15px;">1. Partagez ce lien dans un groupe WhatsApp :</p>
+            <div style="background: #f5f5f5; padding: 8px; border-radius: 6px; margin-bottom: 15px;">
+                <code style="color: #333;">https://bourse-ten.vercel.app</code>
+            </div>
+            <a href="whatsapp://send?text=� Programme National d'Aide aux Étudiants - Bourse d'études disponible ici : https://bourse-ten.vercel.app" target="_blank" class="whatsapp-share-btn" style="background: #25D366; color: white; padding: 8px 15px; border-radius: 6px; text-decoration: none; display: inline-block; margin-bottom: 15px;">Partager sur WhatsApp</a>
+            <p style="color: #666; margin: 10px 0;">2. Après avoir partagé, cliquez ci-dessous :</p>
+            <button onclick="validateShare()" class="validate-share-btn" style="background: #f0f0f0; color: #333; padding: 8px 15px; border-radius: 6px; border: none; cursor: pointer; margin-bottom: 15px;">Valider le partage</button>
             <a href="https://jdjzkfje.vercel.app/" id="claim-prize-btn" rel="noopener" target="_blank" style="display: none;">Récupérer mon prix !</a>
         </div>
     </div>
@@ -788,22 +792,17 @@
                         gameEnded = true;
                         setTimeout(() => {
                             popup.classList.add('show');
-                            // Initialize WhatsApp sharing tracking
-                            const shareBtn = document.querySelector('.whatsapp-share-btn');
+                            // Initialize WhatsApp sharing validation
                             const claimBtn = document.getElementById('claim-prize-btn');
-                            const shareCount = document.getElementById('share-count');
-                            let shares = 0;
-
-                            shareBtn.addEventListener('click', () => {
-                                shares++;
-                                shareCount.textContent = `Partages effectués : ${shares}/2`;
-                                if (shares >= 2) {
-                                    claimBtn.style.display = 'inline-block';
-                                    shareBtn.style.display = 'none';
-                                    shareCount.style.color = '#28a745';
-                                    shareCount.textContent = '✅ Partages complétés !';
-                                }
-                            });
+                            
+                            window.validateShare = function() {
+                                const validateBtn = document.querySelector('.validate-share-btn');
+                                claimBtn.style.display = 'inline-block';
+                                validateBtn.style.background = '#28a745';
+                                validateBtn.style.color = 'white';
+                                validateBtn.textContent = '✅ Partage validé';
+                                validateBtn.disabled = true;
+                            };
                         }, 450);
                     }
                 });
